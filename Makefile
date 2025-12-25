@@ -23,7 +23,7 @@ INCLUDES	:=	include include/mod_manager lib/borealis/library/include/borealis/ex
 				lib/cpp-generic-toolbox/include lib/simple-cpp-logger/include
 APP_TITLE	:=	All-in-One Switch Updater Reborn
 APP_AUTHOR	:=	HamletDuFromage, eXploitz
-APP_VERSION :=	1.05.0
+APP_VERSION :=	2.00.0
 TARGET		:=	aio-switch-updater-reborn
 
 ROMFS				:=	resources
