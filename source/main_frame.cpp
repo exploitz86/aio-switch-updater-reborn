@@ -10,6 +10,7 @@
 #include "fs.hpp"
 #include "list_download_tab.hpp"
 #include "tools_tab.hpp"
+#include "cheats_mods_menu.hpp"
 #include "utils.hpp"
 #include "worker_page.hpp"
 
@@ -58,7 +59,7 @@ MainFrame::MainFrame() : TabFrame()
         this->addTab("menus/main/download_firmware"_i18n, new ListDownloadTab(contentType::fw, nxlinks));
 
     if (!util::getBoolValue(hideStatus, "cheats"))
-        this->addTab("menus/main/download_cheats"_i18n, new ListDownloadTab(contentType::cheats));
+        this->addTab("menus/main/cheats_mods"_i18n, new CheatsModsMenu());
 
     if (!util::getBoolValue(hideStatus, "custom"))
         this->addTab("menus/main/custom_downloads"_i18n, new AmsTab_Custom(nxlinks, erista));

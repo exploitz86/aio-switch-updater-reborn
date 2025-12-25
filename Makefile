@@ -16,10 +16,11 @@ include $(DEVKITPRO)/libnx/switch_rules
 # DATA is a list of directories containing data files
 # INCLUDES is a list of directories containing header files
 BUILD		:=	build
-SOURCES		:=	source
+SOURCES		:=	source source/api source/smd_utils source/mod_manager lib/ini/source/SimpleIniParser
 RESOURCES	:=	resources
 DATA		:=	data
-INCLUDES	:=	include /lib/borealis/library/include/borealis/extern/nlohmann
+INCLUDES	:=	include include/mod_manager lib/borealis/library/include/borealis/extern/nlohmann lib/ini/include lib/ini/include/SimpleIniParser \
+				lib/cpp-generic-toolbox/include lib/simple-cpp-logger/include
 APP_TITLE	:=	All-in-One Switch Updater Reborn
 APP_AUTHOR	:=	HamletDuFromage, eXploitz
 APP_VERSION :=	1.05.0
@@ -48,7 +49,10 @@ CFLAGS	:=	-g -Wall -O2 -ffunction-sections \
 CFLAGS	+=	$(INCLUDE) -D__SWITCH__ \
 			-DBOREALIS_RESOURCES="\"$(BOREALIS_RESOURCES)\"" \
 			-DAPP_VERSION="\"$(APP_VERSION)\"" \
-			-DAPP_TITLE="\"$(APP_TITLE)\"" -DAPP_TITLE_LOWER="\"$(TARGET)\""
+			-DAPP_TITLE="\"$(APP_TITLE)\"" -DAPP_TITLE_LOWER="\"$(TARGET)\"" \
+			-DLOGGER_MAX_LOG_LEVEL_PRINTED=6 \
+			-DLOGGER_PREFIX_LEVEL=3 \
+			-DLOGGER_ENABLE_COLORS_ON_USER_HEADER=1
 
 
 CXXFLAGS	:= $(CFLAGS) -std=gnu++23 -fexceptions -Wno-reorder
@@ -56,7 +60,7 @@ CXXFLAGS	:= $(CFLAGS) -std=gnu++23 -fexceptions -Wno-reorder
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=$(DEVKITPRO)/libnx/switch.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
-LIBS	:= -lm -lcurl -lnx -lz -lminizip -lmbedtls -lmbedx509 -lmbedcrypto -lstdc++fs
+LIBS	:= -lm -lcurl -lnx -lz -lminizip -lmbedtls -lmbedx509 -lmbedcrypto -lstdc++fs -larchive -lbz2 -llzma -lzstd -llz4
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
@@ -82,7 +86,11 @@ export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
 export DEPSDIR	:=	$(CURDIR)/$(BUILD)
 
 CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
+# Exclude switch_wrapper.c to avoid duplicate symbol errors with nadrino/borealis
+CFILES := $(filter-out switch_wrapper.c,$(CFILES))
+
 CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
+
 SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
 BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
 
@@ -102,12 +110,13 @@ endif
 
 export OFILES_BIN	:=	$(addsuffix .o,$(BINFILES))
 export OFILES_SRC	:=	$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
-export OFILES 	:=	$(OFILES_BIN) $(OFILES_SRC)
+export OFILES 	:=	$(sort $(OFILES_BIN) $(OFILES_SRC))
 export HFILES_BIN	:=	$(addsuffix .h,$(subst .,_,$(BINFILES)))
 
 export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
 			$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
-			-I$(CURDIR)/$(BUILD)
+			-I$(CURDIR)/$(BUILD) \
+			-IC:/devkitPro/portlibs/switch/include
 
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
@@ -223,7 +232,10 @@ $(OFILES_SRC)	: $(HFILES_BIN)
 	@echo $(notdir $<)
 	@$(bin2o)
 
+# Conditionally include dependencies, ignoring errors from Windows paths
+ifneq ($(MAKECMDGOALS),clean)
 -include $(DEPENDS)
+endif
 
 #---------------------------------------------------------------------------------------
 endif

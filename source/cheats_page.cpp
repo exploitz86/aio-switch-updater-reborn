@@ -13,28 +13,19 @@
 
 namespace i18n = brls::i18n;
 using namespace i18n::literals;
-CheatsPage::CheatsPage() : AppletFrame(true, true)
+CheatsPage::CheatsPage() : List()
 {
-    this->setTitle("menus/cheats/menu"_i18n);
-    list = new brls::List();
-
     item = new brls::ListItem("menus/cheats/view"_i18n);
     item->getClickEvent()->subscribe([](brls::View* view) {
         brls::Application::pushView(new AppPage_DownloadedCheats());
     });
-    list->addView(item);
-
-    item = new brls::ListItem("menus/cheats/settings"_i18n);
-    item->getClickEvent()->subscribe([](brls::View* view) {
-        brls::PopupFrame::open("menus/cheat_settings/title"_i18n, new CheatSettingsPage(), "", "");
-    });
-    list->addView(item);
+    this->addView(item);
 
     item = new brls::ListItem("menus/cheats/exclude"_i18n);
     item->getClickEvent()->subscribe([](brls::View* view) {
         brls::Application::pushView(new AppPage_Exclude());
     });
-    list->addView(item);
+    this->addView(item);
 
     item = new brls::ListItem("menus/cheats/delete_existing"_i18n);
     item->getClickEvent()->subscribe([](brls::View* view) {
@@ -46,7 +37,7 @@ CheatsPage::CheatsPage() : AppletFrame(true, true)
             new ConfirmPage_Done(stagedFrame, "menus/common/all_done"_i18n));
         brls::Application::pushView(stagedFrame);
     });
-    list->addView(item);
+    this->addView(item);
 
     item = new brls::ListItem("menus/cheats/delete_orphaned"_i18n);
     item->getClickEvent()->subscribe([](brls::View* view) {
@@ -58,7 +49,7 @@ CheatsPage::CheatsPage() : AppletFrame(true, true)
             new ConfirmPage_Done(stagedFrame, "menus/common/all_done"_i18n));
         brls::Application::pushView(stagedFrame);
     });
-    list->addView(item);
+    this->addView(item);
 
     std::string cheatsVer = util::getCheatsVersion();
     if (cheatsVer != "") {
@@ -80,7 +71,6 @@ CheatsPage::CheatsPage() : AppletFrame(true, true)
                 new ConfirmPage_Done(stagedFrame, "menus/common/all_done"_i18n));
             brls::Application::pushView(stagedFrame);
         });
-        list->addView(item);
+        this->addView(item);
     }
-    this->setContentView(list);
 }

@@ -7,7 +7,7 @@
 #include "download.hpp"
 #include "extract.hpp"
 #include "main_frame.hpp"
-#include "progress_event.hpp"
+#include "smd_utils/progress_event.hpp"
 #include "utils.hpp"
 
 namespace i18n = brls::i18n;

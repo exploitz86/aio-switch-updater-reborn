@@ -2,10 +2,9 @@
 
 #include <borealis.hpp>
 
-class CheatsPage : public brls::AppletFrame
+class CheatsPage : public brls::List
 {
 private:
-    brls::List* list;
     brls::ListItem* item;
     brls::StagedAppletFrame* stagedFrame;
 

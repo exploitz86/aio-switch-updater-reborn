@@ -13,7 +13,7 @@
 #include <thread>
 
 #include "fs.hpp"
-#include "progress_event.hpp"
+#include "smd_utils/progress_event.hpp"
 #include "utils.hpp"
 
 namespace i18n = brls::i18n;
@@ -122,7 +122,12 @@ namespace download {
             curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
             curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
             curl_easy_setopt(curl, CURLOPT_NOBODY, 1L);
-            curl_easy_perform(curl);
+            curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10L);
+            auto perform_res = curl_easy_perform(curl);
+            if (perform_res != CURLE_OK) {
+                brls::Logger::warning("checkSize failed: {}", curl_easy_strerror(perform_res));
+                return true; // Proceed with download anyway
+            }
             auto res = curl_easy_getinfo(curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD_T, &dl);
             if (!res) {
                 s64 freeStorage;
@@ -315,6 +320,9 @@ namespace download {
 
                 if (*out != 0) {
                     can_download = is_mega ? !real_url.empty() : checkSize(curl, url);
+                    if (can_download) {
+                        curl_easy_reset(curl); // Reset after HEAD request
+                    }
                 }
 
                 if (can_download) {

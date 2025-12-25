@@ -12,7 +12,7 @@
 #include "extract.hpp"
 #include "fs.hpp"
 #include "main_frame.hpp"
-#include "progress_event.hpp"
+#include "smd_utils/progress_event.hpp"
 #include "reboot_payload.h"
 #include "unistd.h"
 

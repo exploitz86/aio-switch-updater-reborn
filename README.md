@@ -1,18 +1,29 @@
 # AIO-Switch-Updater-Reborn
-![releases](https://img.shields.io/github/downloads/exploitz86/aio-switch-updater-reborn/total)
-[![Build AIO-switch-updater-reborn](https://github.com/exploitz86/aio-switch-updater-reborn/actions/workflows/main.yml/badge.svg)](https://github.com/exploitz86/aio-switch-updater-reborn/actions/workflows/main.yml)
-![tag](https://img.shields.io/github/v/release/exploitz86/aio-switch-updater-reborn)
-![GitHub](https://img.shields.io/github/license/exploitz86/aio-switch-updater-reborn)
-
-[![ko-fi](https://img.shields.io/badge/ko--fi-buy%20me%20a%20coffee-ff69b4)](https://ko-fi.com/exploitz)
 
 <p align="center">
-<img src = "icon.jpg"\><br>
+  <img src = "icon.jpg"><br>
 </p>
 
-A Nintendo Switch homebrew app to download and update CFWs, FWs and cheat codes. Supports Atmosphère, ReiNX and SXOS.
+<p align="center">
+  <img src="https://img.shields.io/github/downloads/exploitz86/aio-switch-updater-reborn/total" alt="downloads">
+  <a href="https://github.com/exploitz86/aio-switch-updater-reborn/actions/workflows/main.yml">
+    <img src="https://github.com/exploitz86/aio-switch-updater-reborn/actions/workflows/main.yml/badge.svg" alt="Build">
+  </a>
+  <img src="https://img.shields.io/github/v/release/exploitz86/aio-switch-updater-reborn" alt="release">
+  <img src="https://img.shields.io/github/license/exploitz86/aio-switch-updater-reborn" alt="license">
+</p>
 
-Please note that this is a fork of the awesome AIO Switch Updater by HamletDuFromage. It was initially created for personal use because his cheats repository was broken. All the repositories used by this app have also been forked to make sure everything works as intended. I have many ideas for future updates, so if you are interested, feel free to use this and perhaps consider donating a small amount to help keep the server running, which is necessary for the cheat database to update itself. Also, please consider donating to HamletDuFromage!
+<p align="center">
+  <a href="https://ko-fi.com/exploitz">
+    <img height="50" src="https://storage.ko-fi.com/cdn/brandasset/kofi_button_red.png" alt="Support me on Ko-fi">
+  </a>
+</p>
+
+---
+
+A Nintendo Switch homebrew app to download and update CFWs, FWs, cheat codes, and mods. Supports Atmosphère, ReiNX and SXOS.
+
+**This is a fork of the awesome AIO Switch Updater by HamletDuFromage.** It was initially created for personal use with enhanced features and reliability. All repositories used by this app have been forked to ensure everything works as intended. If you find this useful, please consider donating to help keep the server running for the cheat database updates. Also, please consider donating to HamletDuFromage for the original work!
 
 Works on **unpatched** (Erista) and **patched** (v2/Mariko) Switches.
 
@@ -36,19 +47,28 @@ Copy the `aio-switch-updater-reborn/` directory to `/switch/` on your sdcard.
 - Download firmware files to `/firmware` that can then be installed using DayBreak.
 
 ### ⬦ Download cheats
-- Download and extract daily-updated cheat code. The program will only extract cheat codes for the games you own. By default, this homebrew will overwrite the existing cheats. If you have your own cheat files that you'd like to keep as is, you can turn off cheat updates for specific titles in `Tools→Cheat Menu`.
-- Download cheat sheets from [Cheat Slips](https://www.cheatslips.com/). 
+- Download and extract daily-updated cheat codes. The program will only extract cheat codes for the games you own. By default, this homebrew will overwrite the existing cheats. If you have your own cheat files that you'd like to keep as is, you can turn off cheat updates for specific titles in `Tools→Cheat Menu`.
+- Download cheat sheets from [Cheat Slips](https://www.cheatslips.com/).
 - Download individual cheat codes from the `GBAtemp.net` database.
+- Includes popular 60FPS cheats created by ChanseyIsTheBest.
+
+### ⬦ Mod Manager & Downloader
+- **Browse and Download Mods**: Search and download mods directly from GameBanana for your games with fast access to a massive library of community-made enhancements, tweaks, and custom content.
+- **Manage Installed Mods**: Enable/disable mods, view mod details, and uninstall mods with an intuitive interface.
+- **Mod Presets**: Create, edit, and apply mod presets to quickly switch between different mod configurations.
+- **Automatic Mod Status Checking**: The app tracks which mods are active, inactive, or partially applied.
+- **Game-Specific Mod Management**: Mods are automatically organized by game title ID for easy management.
 
 ## Extras (in the `Tools` tab)
 - Reboot to specific payload.
-- Consult games with missing updates.
+- Check for games with missing updates.
 - Change software color scheme of Joy-Cons. Additional color profiles can be found in the releases and should be copied to `config/aio-switch-updater-reborn/jc_profiles.json`. Use [this webpage](https://hamletdufromage.github.io/JC-color-picker/JCpicker.html) to generate your own profiles.
 - Change software color scheme of Pro Controllers (has to be paired as Player 1). Additional color profiles can be found in the releases and should be copied to `config/aio-switch-updater-reborn/pc_profiles.json`.
-- Consult installed cheat codes.
+- View installed cheat codes.
 - Launch the Switch's web browser.
-- Edit internet settings (DNS, IP address, MTU, etc). Add you own configs to `config/aio-switch-updater-reborn/internet.json`. You can find a template in the root of the repo.
-- Tabs can be hidden through the `Hide tabs` menu, and more entries can be hidden by manually editing [`config/aio-switch-updater-reborn/hide_tabs.json`](https://github.com/exploitz86/aio-switch-updater-reborn/blob/master/hide_tabs.json).
+- Edit internet settings (DNS, IP address, MTU, etc). Add your own configs to `config/aio-switch-updater-reborn/internet.json`. You can find a template in the root of the repo.
+- Clean up downloaded files and atmosphere report folders (crash_reports, fatal_reports, fatal_errors, erpt_reports).
+- Hide tabs through the `Hide tabs` menu. More entries can be hidden by manually editing [`config/aio-switch-updater-reborn/hide_tabs.json`](https://github.com/exploitz86/aio-switch-updater-reborn/blob/master/hide_tabs.json).
 
 ## Screenshots
 <details><summary>Expand to view the screenshots</summary>
@@ -106,8 +126,8 @@ I do not own, host nor distribute any of the files that can be downloaded with t
 
 ## Special thanks
 - [HamletDuFromage](https://github.com/HamletDuFromage) for the original code of this app.
-
-- [natinusala](https://github.com/natinusala) for the Borealis library.
+- [nadrino](https://github.com/nadrino) for the SimpleModManager and the modified Borealis library.
+- [PoloNX](https://github.com/PoloNX) for the SimpleModDownloader.
 - [tiansongyu](https://github.com/tiansongyu) for bringing support for multi-language and for his Chinese translation.
 - [yyoossk](https://github.com/yyoossk) for the Japanese locale.
 - [sergiou87](https://github.com/sergiou87) for the Spanish locale.
@@ -117,10 +137,7 @@ I do not own, host nor distribute any of the files that can be downloaded with t
 - [Nota Inutilis](https://github.com/NotaInutilis/) for the French locale.
 - [Team Neptune](https://github.com/Team-Neptune) whose rcm code I used.
 - [fennectech](https://github.com/fennectech) for helping test the app and providing suggestions.
+- [ChanseyIsTheBest](https://github.com/ChanseyIsTheBest) for the popular 60FPS cheats.
 - Iliak for [Cheat Slips](https://www.cheatslips.com/).
 
 ### Like the app? originally it has been made by HamletDuFromage. Please consider donating to him!
-- Liberapay : <a href="https://liberapay.com/HamletDuFromage/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a>
-- BTC: 1CoFc1bY5AHLP6Noe1zmqnJnp7ZWBxyo79
-- ETH: 0xf68f568e21a15934e0e9a6949288c3ca009140ba
-- Monero (XMR): 88wjCuhHX3oNhVpEdYeUx3LvrkdTvcTHx7v7L5fQpjCg7QiAReJUVR4LPase5Byj2UhdVdLtvysJaXTFKq2EnuvuLjvQMGL

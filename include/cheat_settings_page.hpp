@@ -8,10 +8,9 @@ enum class CheatSettingStatus {
     DISABLED
 };
 
-class CheatSettingsPage : public brls::AppletFrame
+class CheatSettingsPage : public brls::List
 {
 private:
-    brls::List* list;
     brls::ListItem* autoEnableItem;
     brls::ListItem* rememberStateItem;
     brls::ListItem* statusHeaderItem;

@@ -46,12 +46,6 @@ ToolsTab::ToolsTab(const std::string& tag, const nlohmann::ordered_json& payload
         this->addView(updateApp);
     }
 
-    brls::ListItem* cheats = new brls::ListItem("menus/tools/cheats"_i18n);
-    cheats->getClickEvent()->subscribe([](brls::View* view) {
-        brls::PopupFrame::open("menus/cheats/menu"_i18n, new CheatsPage(), "", "");
-    });
-    cheats->setHeight(LISTITEM_HEIGHT);
-
     brls::ListItem* outdatedTitles = new brls::ListItem("menus/tools/outdated_titles"_i18n);
     outdatedTitles->getClickEvent()->subscribe([](brls::View* view) {
         brls::PopupFrame::open("menus/tools/outdated_titles"_i18n, new AppPage_OutdatedTitles(), "menus/tools/outdated_titles_desc"_i18n, "");
@@ -117,6 +111,19 @@ ToolsTab::ToolsTab(const std::string& tag, const nlohmann::ordered_json& payload
         fs::removeDir(AMS_DIRECTORY_PATH);
         fs::removeDir(SEPT_DIRECTORY_PATH);
         fs::removeDir(FW_DIRECTORY_PATH);
+
+        auto deleteContents = [](const std::string& path) {
+            if (std::filesystem::exists(path)) {
+                for (const auto& entry : std::filesystem::directory_iterator(path)) {
+                    std::filesystem::remove_all(entry.path());
+                }
+            }
+        };
+        deleteContents("sdmc:/atmosphere/crash_reports");
+        deleteContents("sdmc:/atmosphere/fatal_reports");
+        deleteContents("sdmc:/atmosphere/fatal_errors");
+        deleteContents("sdmc:/atmosphere/erpt_reports");
+
         util::showDialogBoxInfo("menus/common/all_done"_i18n);
     });
     cleanUp->setHeight(LISTITEM_HEIGHT);
@@ -185,7 +192,6 @@ ToolsTab::ToolsTab(const std::string& tag, const nlohmann::ordered_json& payload
     });
     changelog->setHeight(LISTITEM_HEIGHT);
 
-    if (!util::getBoolValue(hideStatus, "cheats")) this->addView(cheats);
     if (!util::getBoolValue(hideStatus, "outdatedtitles")) this->addView(outdatedTitles);
     if (!util::getBoolValue(hideStatus, "jccolor")) this->addView(JCcolor);
     if (!util::getBoolValue(hideStatus, "pccolor")) this->addView(PCcolor);

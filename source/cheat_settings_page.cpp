@@ -16,54 +16,50 @@
 namespace i18n = brls::i18n;
 using namespace i18n::literals;
 
-CheatSettingsPage::CheatSettingsPage() : AppletFrame(true, true)
+CheatSettingsPage::CheatSettingsPage() : List()
 {
-    this->setTitle("menus/cheat_settings/title"_i18n);
-    
     // Ensure config file exists before proceeding
     ensureConfigExists();
-    
-    list = new brls::List();
     
     // Status header
     statusHeaderItem = new brls::ListItem("menus/cheat_settings/current_status"_i18n);
     statusHeaderItem->setValue("menus/cheat_settings/config_ready"_i18n);
     statusHeaderItem->setHeight(60);
-    list->addView(statusHeaderItem);
-    
+    this->addView(statusHeaderItem);
+
     // Auto-enable cheats toggle
     autoEnableItem = new brls::ListItem("menus/cheat_settings/auto_enable_cheats"_i18n);
     autoEnableItem->getClickEvent()->subscribe([this](brls::View* view) {
         bool currentValue = getCurrentSetting("dmnt_cheats_enabled_by_default");
         bool newValue = !currentValue;
-        
+
         if (updateConfigSetting("dmnt_cheats_enabled_by_default", newValue)) {
             autoEnableItem->setValue(newValue ? "menus/common/enabled"_i18n : "menus/common/disabled"_i18n);
         }
     });
     autoEnableItem->setHeight(60);
     autoEnableItem->setValue(getCurrentSetting("dmnt_cheats_enabled_by_default") ? "menus/common/enabled"_i18n : "menus/common/disabled"_i18n);
-    list->addView(autoEnableItem);
-    
+    this->addView(autoEnableItem);
+
     // Remember cheat state toggle
     rememberStateItem = new brls::ListItem("menus/cheat_settings/remember_state"_i18n);
     rememberStateItem->getClickEvent()->subscribe([this](brls::View* view) {
         bool currentValue = getCurrentSetting("dmnt_always_save_cheat_toggles");
         bool newValue = !currentValue;
-        
+
         if (updateConfigSetting("dmnt_always_save_cheat_toggles", newValue)) {
             rememberStateItem->setValue(newValue ? "menus/common/enabled"_i18n : "menus/common/disabled"_i18n);
         }
     });
     rememberStateItem->setHeight(60);
     rememberStateItem->setValue(getCurrentSetting("dmnt_always_save_cheat_toggles") ? "menus/common/enabled"_i18n : "menus/common/disabled"_i18n);
-    list->addView(rememberStateItem);
-    
+    this->addView(rememberStateItem);
+
     // Add small spacing
     brls::Label* spacer = new brls::Label(brls::LabelStyle::DESCRIPTION, "", true);
     spacer->setHeight(10);
-    list->addView(spacer);
-    
+    this->addView(spacer);
+
     // Add restart to payload button (moved to bottom)
     brls::ListItem* restartItem = new brls::ListItem("menus/cheat_settings/restart_to_payload"_i18n);
     restartItem->getClickEvent()->subscribe([this](brls::View* view) {
@@ -71,15 +67,13 @@ CheatSettingsPage::CheatSettingsPage() : AppletFrame(true, true)
         brls::Application::pushView(new DialoguePage_restart(""));
     });
     restartItem->setHeight(60);
-    list->addView(restartItem);
-    
+    this->addView(restartItem);
+
     // Add info section (moved to bottom)
     brls::ListItem* infoItem = new brls::ListItem("menus/cheat_settings/info"_i18n);
     infoItem->setValue("menus/cheat_settings/info_desc"_i18n);
     infoItem->setHeight(80);
-    list->addView(infoItem);
-    
-    this->setContentView(list);
+    this->addView(infoItem);
     
     // Refresh UI to ensure values are correct after potential config creation
     refreshUI();
